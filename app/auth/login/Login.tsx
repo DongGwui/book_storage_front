@@ -3,16 +3,16 @@ import React from 'react';
 import {useState} from "react";
 import Link from "next/link";
 import {IoArrowBack} from "react-icons/io5";
-import {login, user} from "@/app/data/user"
-import axios from "axios";
+import {loginData, user} from "@/app/data/user"
 import {useRouter} from "next/navigation";
+import {login } from '@/app/service/auth';
 
 
 const Login = () => {
 
     const router = useRouter();
 
-    const [loginInfo, setLoginInfo] = useState<login>({
+    const [loginInfo, setLoginInfo] = useState<loginData>({
         userId: '',
         password: ''
     })
@@ -31,25 +31,17 @@ const Login = () => {
         // 로그인 데이터 활용
         console.log(loginInfo);
         try{
-            const response = await axios.post(
-                'http://localhost:4000/users/login',
-                loginInfo,
-                {
-                    withCredentials: true
-                });
-            console.log(response.data);
-            console.log(response.status);
-            if(response.status == 200){
-                if(response.data.code == 2000){
-                    router.push(`/`)
-                }else{
-                    alert(response.data.msg);
-                }
+            const result = await login(loginInfo);
+            console.log(result.data);
+            console.log(result.status);
+            if(result.status == 200){
+                router.push(`/`)
+                alert(result.data.msg);
             }
         }catch (e) {
             console.error(e);
         }
-    };
+    }; //사용자 로그인 상태 확인 ->
 
     return (
         <section className="flex h-screen">

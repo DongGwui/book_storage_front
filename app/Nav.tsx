@@ -1,8 +1,19 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Link from "next/link"
 import {IoIosSearch} from "react-icons/io";
 
-const Nav = ({userName}: { userName: String }) => {
+import {user} from "@/app/data/user"
+import {
+    accessToken,
+    refreshToken,
+    logout,
+    loginSuccess
+} from "@/app/service/auth"
+
+const Nav = () => {
+    const [isLogin, setIsLogin] = useState(false);
+    const [user, setUser] = useState<user>();
+
     return (
         <section id="nav" className='flex justify-between py-7 bg-neutral-50'>
             <div className="w-1/3">
@@ -18,6 +29,14 @@ const Nav = ({userName}: { userName: String }) => {
                 <div className="flex p-3 items-center ml-auto mr-auto justify-center">
                     logo
                 </div>
+
+                <a onClick={accessToken} className="App-link">
+                    get Access Token
+                </a>
+
+                <a onClick={refreshToken} className="App-link">
+                    get Refresh Token
+                </a>
             </div>
             <div className="w-1/3 flex justify-end">
                 <div className="flex mr-5 p-3">
@@ -26,12 +45,15 @@ const Nav = ({userName}: { userName: String }) => {
                         <input type="text" className="text-sm bg-none rounded-3xl focus:outline-none p-1"
                                placeholder="Search..."/>
                     </div>
-                    {userName !== '' ? (
-                        <Link href="/" className="mx-2 mr-3 p-2">Hello! {userName}</Link>
+                    {isLogin ? (
+                        <>
+                            <Link href="/" className="mx-2 mr-3 p-2">Hello! {user?.name}</Link>
+                            <button onClick={logout} className="ml-2 p-2 rounded-3xl text-white bg-black">Logout</button>
+                        </>
                     ) : (
                         <>
                             <Link href="/auth/login" className="ml-2 p-2">Log in</Link>
-                            <a className="ml-2 p-2 rounded-3xl text-white bg-black">Sign up</a>
+                            <Link href="/auth/signup" className="ml-2 p-2 rounded-3xl text-white bg-black">Sign up</Link>
                         </>
                     )}
                 </div>

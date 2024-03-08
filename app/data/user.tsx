@@ -7,7 +7,7 @@ export type user =  {
     email: string;
 }
 
-export type login = {
+export type loginData = {
     userId : String;
     password: String;
 }
