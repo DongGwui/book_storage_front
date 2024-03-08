@@ -1,6 +1,6 @@
 "use client";
 
-import {useRouter, useSearchParams} from "next/navigation";
+import {useAppSelector} from "@/app/store/store";
 import Nav from "@/app/Nav";
 import Intro from "@/app/Intro"
 import Content from "@/app/Content";
@@ -11,14 +11,12 @@ import Sk_Content from "@/app/utill/skeleton/Sk_Content";
 import Sk_Books from "@/app/utill/skeleton/Sk_Books";
 
 export default function Home() {
-  // const searchParam = useSearchParams()
-  // let getName = searchParam.get("name");
-  // let islogin = false;
-  // if(getName != null){islogin = true}else{getName = ''}
+
+    const {username, userid} = useAppSelector((state) => state.authReducer.value)
 
   return (
       <>
-        <Nav/>
+        <Nav user={username}/>
         <Intro/>
         {/*{islogin && (<Content booksType={"My Books"}/>)}*/}
         {/*{islogin && (<Sk_Content/>)}*/}

@@ -5,17 +5,22 @@ import Link from "next/link";
 import {IoArrowBack} from "react-icons/io5";
 import {loginData, user} from "@/app/data/user"
 import {useRouter} from "next/navigation";
-import {login } from '@/app/service/auth';
+import {login, loginSuccess} from '@/app/service/auth';
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@/app/store/store";
+import {logIn} from "@/app/store/slices/auth-slice";
+import {AuthState} from "@/app/data/user"
 
 
 const Login = () => {
 
     const router = useRouter();
-
     const [loginInfo, setLoginInfo] = useState<loginData>({
         userId: '',
         password: ''
     })
+    const [username, setUsername] = useState<string>("");
+    const dispatch = useDispatch<AppDispatch>();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -29,12 +34,14 @@ const Login = () => {
 
     const handleSubmit = async () => {
         // 로그인 데이터 활용
-        console.log(loginInfo);
         try{
             const result = await login(loginInfo);
-            console.log(result.data);
-            console.log(result.status);
+            // console.log(result.data);
+            // console.log(result.status);
             if(result.status == 200){
+                const userInfoData = await loginSuccess();
+                dispatch(logIn(userInfoData.data.name));
+                console.log(userInfoData.data);
                 router.push(`/`)
                 alert(result.data.msg);
             }

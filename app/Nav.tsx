@@ -10,9 +10,10 @@ import {
     loginSuccess
 } from "@/app/service/auth"
 
-const Nav = () => {
-    const [isLogin, setIsLogin] = useState(false);
-    const [user, setUser] = useState<user>();
+// interface propstype{user: string}
+const Nav = ({user}:string) => {
+    // const [isLogin, setIsLogin] = useState(false);
+    // const [user, setUser] = useState<user>();
 
     return (
         <section id="nav" className='flex justify-between py-7 bg-neutral-50'>
@@ -45,9 +46,9 @@ const Nav = () => {
                         <input type="text" className="text-sm bg-none rounded-3xl focus:outline-none p-1"
                                placeholder="Search..."/>
                     </div>
-                    {isLogin ? (
+                    {user != "" ? (
                         <>
-                            <Link href="/" className="mx-2 mr-3 p-2">Hello! {user?.name}</Link>
+                            <Link href="/" className="mx-2 mr-3 p-2">Hello! {user}</Link>
                             <button onClick={logout} className="ml-2 p-2 rounded-3xl text-white bg-black">Logout</button>
                         </>
                     ) : (

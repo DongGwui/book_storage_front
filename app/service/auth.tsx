@@ -1,6 +1,5 @@
 import axios from "axios";
 import {loginData, user} from "../data/user";
-import {userInfo} from "node:os";
 
 export const accessToken = () => {
     axios({
@@ -55,16 +54,14 @@ export const login = async (loginInfo : loginData) => {
     }
 }
 
-export const loginSuccess = () => {
-    axios({
-        url: "http://localhost:4000/auth/login/success",
-        method: "GET",
-        withCredentials: true,
-    })
-        .then((result) => {
-            return result.data
+export const loginSuccess = async () => {
+    try{
+        return await axios({
+            url: "http://localhost:4000/auth/login/success",
+            method: "GET",
+            withCredentials: true,
         })
-        .catch((error) => {
-            console.log(error);
-        });
+    } catch(error){
+        console.log(error);
+    }
 }
