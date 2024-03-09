@@ -9,7 +9,6 @@ import {login, loginSuccess} from '@/app/service/auth';
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/app/store/store";
 import {logIn} from "@/app/store/slices/auth-slice";
-import {AuthState} from "@/app/data/user"
 
 
 const Login = () => {

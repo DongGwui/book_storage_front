@@ -1,6 +1,6 @@
 "use client";
 
-import {useAppSelector} from "@/app/store/store";
+import {selectAuth} from "@/app/store/slices/auth-slice";
 import Nav from "@/app/Nav";
 import Intro from "@/app/Intro"
 import Content from "@/app/Content";
@@ -9,10 +9,11 @@ import Footer from "@/app/Footer";
 
 import Sk_Content from "@/app/utill/skeleton/Sk_Content";
 import Sk_Books from "@/app/utill/skeleton/Sk_Books";
+import {useAppSelector} from "@/app/store/store"
 
 export default function Home() {
 
-    const {username, userid} = useAppSelector((state) => state.authReducer.value)
+    const {username, userid} = useAppSelector((state) => state.persistedReducer.auth.value);
 
   return (
       <>

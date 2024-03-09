@@ -45,10 +45,11 @@ export const auth = createSlice({
 
         // 로그인 하면 받아온 유저 정보로 변경
     }
-})
-
+});
 export const {logIn, logOut} = auth.actions;
 //정의한 action export
+
+// export const selectAuth = state => state.value
 
 export default auth.reducer;
 // authReducer export

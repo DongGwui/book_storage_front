@@ -9,11 +9,25 @@ import {
     logout,
     loginSuccess
 } from "@/app/service/auth"
+import {logIn, logOut} from "@/app/store/slices/auth-slice";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "@/app/store/store";
 
 // interface propstype{user: string}
 const Nav = ({user}:string) => {
-    // const [isLogin, setIsLogin] = useState(false);
-    // const [user, setUser] = useState<user>();
+
+    const dispatch = useDispatch<AppDispatch>();
+
+    const onClickLogout = async () => {
+        try{
+            const result = await logout()
+            if (result.status === 200) {
+                dispatch(logOut());
+            }
+        }catch (error){
+            console.log(error);
+        }
+    }
 
     return (
         <section id="nav" className='flex justify-between py-7 bg-neutral-50'>
@@ -38,10 +52,15 @@ const Nav = ({user}:string) => {
                 <a onClick={refreshToken} className="App-link">
                     get Refresh Token
                 </a>
+
+
+                <a onClick={loginSuccess} className="App-link">
+                    login success
+                </a>
             </div>
             <div className="w-1/3 flex justify-end">
                 <div className="flex mr-5 p-3">
-                    <div className="flex flex-row bg-white rounded-3xl items-center text-xl p-2">
+                <div className="flex flex-row bg-white rounded-3xl items-center text-xl p-2">
                         <IoIosSearch/>
                         <input type="text" className="text-sm bg-none rounded-3xl focus:outline-none p-1"
                                placeholder="Search..."/>
@@ -49,7 +68,7 @@ const Nav = ({user}:string) => {
                     {user != "" ? (
                         <>
                             <Link href="/" className="mx-2 mr-3 p-2">Hello! {user}</Link>
-                            <button onClick={logout} className="ml-2 p-2 rounded-3xl text-white bg-black">Logout</button>
+                            <button onClick={onClickLogout} className="ml-2 p-2 rounded-3xl text-white bg-black">Logout</button>
                         </>
                     ) : (
                         <>
