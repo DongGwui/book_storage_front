@@ -1,7 +1,7 @@
 "use client";
 
 import {selectAuth} from "@/app/store/slices/auth-slice";
-import Nav from "@/app/Nav";
+import HomeNav from "@/app/utill/nav/HomeNav";
 import Intro from "@/app/Intro"
 import Content from "@/app/Content";
 import Books from "@/app/Books";
@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
       <>
-        <Nav user={username}/>
+        <HomeNav user={username}/>
         <Intro/>
         {/*{islogin && (<Content booksType={"My Books"}/>)}*/}
         {/*{islogin && (<Sk_Content/>)}*/}

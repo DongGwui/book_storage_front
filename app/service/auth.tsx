@@ -40,7 +40,7 @@ export const signup = async (userInfo: user) => {
 
 export const login = async (loginInfo : loginData) => {
     try {
-         return  await axiosClient.post('/auth/login', loginInfo,);
+         return  await axiosClient.post('/auth/login', loginInfo);
 
     }catch (error) {
         console.error("login error", error);

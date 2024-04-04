@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Link from "next/link"
 import {IoIosSearch} from "react-icons/io";
-
-import {user} from "@/app/data/user"
 import {
     accessToken,
     refreshToken,
@@ -14,14 +12,14 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/app/store/store";
 
 // interface propstype{user: string}
-const Nav = ({user}:string) => {
+const HomeNav = ({user}:string) => {
 
     const dispatch = useDispatch<AppDispatch>();
 
     const onClickLogout = async () => {
         try{
-            const result = await logout()
-            if (result.status === 200) {
+            const result = await logout();
+            if (result == null || result.status === 200) {
                 dispatch(logOut());
             }
         }catch (error){
@@ -42,21 +40,8 @@ const Nav = ({user}:string) => {
             </div>
             <div className="w-1/3 justify-center">
                 <div className="flex p-3 items-center ml-auto mr-auto justify-center">
-                    logo
+                    <img className="bg-cover" src="/logo.png"/>
                 </div>
-
-                <a onClick={accessToken} className="App-link">
-                    get Access Token
-                </a>
-
-                <a onClick={refreshToken} className="App-link">
-                    get Refresh Token
-                </a>
-
-
-                <a onClick={loginSuccess} className="App-link">
-                    login success
-                </a>
             </div>
             <div className="w-1/3 flex justify-end">
                 <div className="flex mr-5 p-3">
@@ -67,7 +52,7 @@ const Nav = ({user}:string) => {
                     </div>
                     {user != "" ? (
                         <>
-                            <Link href="/" className="mx-2 mr-3 p-2">Hello! {user}</Link>
+                            <Link href="/public" className="mx-2 mr-3 p-2">Hello! {user}</Link>
                             <button onClick={onClickLogout} className="ml-2 p-2 rounded-3xl text-white bg-black">Logout</button>
                         </>
                     ) : (
@@ -82,4 +67,4 @@ const Nav = ({user}:string) => {
     );
 }
 
-export default Nav
+export default HomeNav

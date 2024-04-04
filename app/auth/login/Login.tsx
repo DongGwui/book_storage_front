@@ -35,8 +35,6 @@ const Login = () => {
         // 로그인 데이터 활용
         try{
             const result = await login(loginInfo);
-            // console.log(result.data);
-            // console.log(result.status);
             if(result.status == 200){
                 const userInfoData = await loginSuccess();
                 dispatch(logIn(userInfoData.data.name));

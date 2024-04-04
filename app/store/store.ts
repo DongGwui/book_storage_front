@@ -3,7 +3,6 @@ import authReducer from "@/app/store/slices/auth-slice";
 import {useSelector, TypedUseSelectorHook} from "react-redux";
 import {persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import thunkMiddleware from "redux-thunk";
 
 const reducers = combineReducers({
     auth: authReducer
