@@ -7,7 +7,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/app/store/store";
 import {useRouter} from "next/navigation";
 
-const Nav = ({user}:string) => {
+const Nav = ({user}: { user:string }) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const router = useRouter();

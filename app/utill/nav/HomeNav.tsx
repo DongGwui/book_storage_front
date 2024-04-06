@@ -12,7 +12,7 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/app/store/store";
 
 // interface propstype{user: string}
-const HomeNav = ({user}:string) => {
+const HomeNav = ({user}:{user:string}) => {
 
     const dispatch = useDispatch<AppDispatch>();
 

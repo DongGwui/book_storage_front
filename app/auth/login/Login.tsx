@@ -37,10 +37,14 @@ const Login = () => {
             const result = await login(loginInfo);
             if(result.status == 200){
                 const userInfoData = await loginSuccess();
-                dispatch(logIn(userInfoData.data.name));
-                console.log(userInfoData.data);
-                router.push(`/`)
-                alert(result.data.msg);
+                if(userInfoData){
+                    dispatch(logIn(userInfoData.data.name));
+                    console.log(userInfoData.data);
+                    router.push(`/`)
+                    alert(result.data.msg);
+                }else{
+                    console.log('loginSuccess error' + userInfoData);
+                }
             }
         }catch (e) {
             console.error(e);
