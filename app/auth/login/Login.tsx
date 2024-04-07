@@ -22,12 +22,10 @@ const Login = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
-        console.log(e.target);
         setLoginInfo((prevState) => ({
             ...prevState,
             [name] : value
         }));
-        console.log(loginInfo);
     }
 
     const handleSubmit = async () => {
@@ -45,7 +43,6 @@ const Login = () => {
                         isModerator : false
                     }));
 
-                    console.log(userInfoData.data);
                     router.push(`/`)
                     alert(result.data.msg);
                 }else{

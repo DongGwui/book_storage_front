@@ -11,8 +11,7 @@ interface  infoState{
 const BookInfoOne =({item ,state, setState}:infoState) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.currentTarget;
-        setState(value);
+        setState(e.target.value);
     }
 
     return (

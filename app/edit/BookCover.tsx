@@ -16,7 +16,6 @@ const BookCover = ({state, setState}:infoState) => {
         // 내가 받을 파일은 하나기 때문에 index 0값의 이미지를 가짐
         const file = e.target.files[0]
         if (!file) return
-
         // 이미지 화면에 띄우기
         const reader = new FileReader();
 
@@ -28,7 +27,6 @@ const BookCover = ({state, setState}:infoState) => {
                 setImage(e.target.result)
             }
         }
-
         // 이미지 파일을 formData에 담아서 서버에 보내고, 서버는 받은 이미지 파일을 S3에 저장하고 받은 URL 값을 클라이언트로 반환해준다.
         const formData = new FormData();
         formData.append('image', file);
@@ -36,9 +34,9 @@ const BookCover = ({state, setState}:infoState) => {
             //유저 아이디, 책 제목 들고오기
             const imageRes = await imageUpload(formData);
             // 반환받은 이미지 URL, 원하는 곳에 사용하면 된다. 나 같은 경우 회원가입 할 때, 회원정보와 같이 한 번에 서버로 보내줬다.
-            console.log(imageRes);
             const image_URL = imageRes.data.url;
             const coverName = extractAfterLastSlash(image_URL)
+            state = coverName != '/book_cover_default.png' ? coverName : '';
             setState(coverName != '/book_cover_default.png' ? coverName : '' );
         } catch (e) {
             console.error(e)

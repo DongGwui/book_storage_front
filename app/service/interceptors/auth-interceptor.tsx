@@ -1,4 +1,5 @@
 import axios, {AxiosRequestConfig} from "axios";
+import {router} from "next/client";
 
 const config: AxiosRequestConfig = {baseURL: "http://localhost:4000/" , withCredentials: true}
 
@@ -24,10 +25,24 @@ axiosClient.interceptors.response.use(
        return response;
     },
     async (error) => {
-        console.log(error.config);
-        console.log(error.response);
-        console.log(error.response.data.msg);
-        // if(error.config && error.response){ //조건 구체화 -> 엑세스 토큰 만료 에러 인지만 체크하기
+        const originalRequest = error.config;
+        // 에러가 발생한 요청이 토큰 관련 에러이고, 아직 토큰 재발급 요청을 보내지 않았을 경우
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true; // 재시도 플래그를 설정
+
+            try {
+                const refreshTokenResponse = await axiosClient.post("/auth/refreshtoken", config);
+                return axiosClient(originalRequest);
+            } catch (refreshTokenError) {
+                // refresh token으로 access token을 갱신하는 데 실패한 경우
+                console.error('Error refreshing access token:', refreshTokenError);
+                // 로그인 화면으로 리다이렉트 등 에러 처리 로직 추가
+                await router.push(`/auth/login`);
+            }
+        }
+        return Promise.reject(error);
+    });
+            // if(error.config && error.response){ //조건 구체화 -> 엑세스 토큰 만료 에러 인지만 체크하기
         //     console.log("response interceptor refresh token start");
         //     try {
         //         const result = await axios.get("/auth/refreshtoken", config);
@@ -40,7 +55,5 @@ axiosClient.interceptors.response.use(
         //         console.log(error);
         //     }
         // }
-    }
-);
 
 export default axiosClient;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import BookInfoOne from "@/app/edit/BookInfoOne";
 import Editor2 from "@/app/edit/Editor2";
@@ -6,6 +6,7 @@ import BookCover from "@/app/edit/BookCover";
 import {EditorState, BookInfos} from "@/app/data/editor"
 import {imageUpload} from "@/app/service/upload";
 import {insertBook} from "@/app/service/book";
+import {router} from "next/client";
 
 interface userInfo{
     userName: string,
@@ -14,8 +15,6 @@ interface userInfo{
 
 const BookInfo = ({userId, userName} : userInfo) => {
 
-console.log(userId);
-console.log(userName);
     const title:BookInfos= {title: "Title", placeString: "Title..."}
     const subject:BookInfos= {title:"Subject", placeString: "Subject..."}
     const [titleState, setTitleState] = useState<string>('')
@@ -30,29 +29,34 @@ console.log(userName);
         cover: coverState,
         content: contentState
     });
-    const handleClick = async () => {
-        setEditorState({
+
+    useEffect( ()=> {
+
+        setEditorState(prevState => ({
+            ...prevState,
             title: titleState,
             subject: subjectState,
             cover: coverState,
             content: contentState
-        });
+        }));
+
+    },[titleState,subjectState,coverState,contentState]);
+
+    const handleClick = async () => {
         //db 저장 - 유저 정보, 책 정보
         try {
             //유저 아이디, 책 제목 들고오기
             const insertRes = await insertBook(editorState);
-            // 반환받은 이미지 URL, 원하는 곳에 사용하면 된다. 나 같은 경우 회원가입 할 때, 회원정보와 같이 한 번에 서버로 보내줬다.
-            console.log(insertRes);
             window.alert(insertRes.data.msg);
-
             setIsWrite(!isWrite);
         } catch (e) {
             console.error(e)
         }
     }
 
-    const ddd = () => {
-        console.log(editorState);
+
+    const goHome = () => {
+        router.push('/');
     }
 
     return (
@@ -73,7 +77,7 @@ console.log(userName);
                                 <Editor2 state={contentState} setState={setContentState}/>
                                 <div className="flex justify-center w-full mt-24 h-20">
                                     <button className="w-32 h-14 rounded-3xl text-xl font-bold text-white
-                                                bg-gradient-to-r from-violet-300 to-fuchsia-300" onClick={handleClick} onDoubleClick={ddd}>
+                                                bg-gradient-to-r from-violet-300 to-fuchsia-300" onClick={handleClick} >
                                         Save
                                     </button>
                                 </div>
@@ -82,7 +86,7 @@ console.log(userName);
                             <div className="flex flex-col w-full h-96 mt-52 justify-between items-center text-2xl font-bold relative">
                                 <div>Complete!</div>
                                 <button className="w-32 h-14 rounded-3xl mb-24 text-xl font-bold text-white
-                                                bg-gradient-to-r from-violet-300 to-fuchsia-300">
+                                                bg-gradient-to-r from-violet-300 to-fuchsia-300" onClick={goHome}>
                                     My Books
                                 </button>
                             </div>

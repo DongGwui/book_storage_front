@@ -160,3 +160,25 @@ export const bookList = [
         comments: 1077
     }
 ]
+
+export type pagination = {
+    page: number,
+    limit: number
+}
+
+type book = {
+    coverUrl: string,
+    id: number,
+    title: string
+}
+
+type user = {
+    id: number,
+    name: string
+}
+
+export type bookContent = {
+    id: number,
+    book: book,
+    user: user
+}
