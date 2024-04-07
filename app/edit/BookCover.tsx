@@ -38,10 +38,19 @@ const BookCover = ({state, setState}:infoState) => {
             // 반환받은 이미지 URL, 원하는 곳에 사용하면 된다. 나 같은 경우 회원가입 할 때, 회원정보와 같이 한 번에 서버로 보내줬다.
             console.log(imageRes);
             const image_URL = imageRes.data.url;
-            setState(image_URL);
-            console.log(image_URL);
+            const coverName = extractAfterLastSlash(image_URL)
+            setState(coverName != '/book_cover_default.png' ? coverName : '' );
         } catch (e) {
             console.error(e)
+        }
+    }
+
+    function extractAfterLastSlash(input: string): string {
+        const lastIndex = input.lastIndexOf('/');
+        if (lastIndex !== -1 && lastIndex !== input.length - 1) {
+            return input.substring(lastIndex + 1);
+        } else {
+            return '';
         }
     }
 

@@ -7,7 +7,8 @@ interface ForwardedQuillComponent extends ReactQuillProps {
     forwardedRef: React.Ref<ReactQuill>;
 }
 
-const QuillNoSSRWrapper = dynamic(
+const QuillNoSSRWrapper =  typeof window === "object"
+    ? dynamic(
     async () => {
         const { default: QuillComponent } = await import('react-quill');
         const Quill = ({ forwardedRef, ...props }: ForwardedQuillComponent) => (
@@ -16,6 +17,6 @@ const QuillNoSSRWrapper = dynamic(
         return Quill;
     },
     { loading: () => <div>...loading</div>, ssr: false },
-);
+) : () => false;
 
 export default QuillNoSSRWrapper;

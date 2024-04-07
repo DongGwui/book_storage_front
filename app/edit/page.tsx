@@ -8,7 +8,7 @@ import {useAppSelector} from "@/app/store/store";
 export default function Page (){
     const user = useAppSelector((state) => state.persistedReducer.auth.value);
     const [title,setTitle] =useState('')
-    console.log(title)
+    console.log(user);
     return (
         <>
             <Nav user={user.username}/>

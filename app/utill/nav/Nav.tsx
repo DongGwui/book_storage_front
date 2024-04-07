@@ -24,11 +24,15 @@ const Nav = ({user}: { user:string }) => {
         }
     }
 
+    const onClickLogo = async () => {
+        router.push(`/`);
+    }
+
     return (
         <section id="nav" className='flex py-5 justify-between bg-neutral-50'>
             <div className="flex">
                 <div className="w-52 justify-center">
-                    <div className="flex p-3 items-center ml-auto mr-auto justify-center">
+                    <div className="flex p-3 items-center ml-auto mr-auto justify-center cursor-pointer" onClick={onClickLogo}>
                         <img className="bg-cover" src="/logo.png"/>
                     </div>
                 </div>

@@ -10,7 +10,6 @@ import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/app/store/store";
 import {logIn} from "@/app/store/slices/auth-slice";
 
-
 const Login = () => {
 
     const router = useRouter();
@@ -37,8 +36,15 @@ const Login = () => {
             const result = await login(loginInfo);
             if(result.status == 200){
                 const userInfoData = await loginSuccess();
+
                 if(userInfoData){
-                    dispatch(logIn(userInfoData.data.name));
+                    dispatch(logIn({
+                        isAuth : true,
+                        username: userInfoData.data.name,
+                        userid: userInfoData.data.userid,
+                        isModerator : false
+                    }));
+
                     console.log(userInfoData.data);
                     router.push(`/`)
                     alert(result.data.msg);

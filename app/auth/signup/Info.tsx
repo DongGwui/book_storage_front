@@ -79,13 +79,6 @@ const Info = () => {
         const validEmail = emailRegex.test(userInfo.email);
         setIsEmailValid(validEmail);
 
-        console.log(validUserId);
-        console.log(isPwdValid);
-        console.log(isPwdChkValid);
-        console.log(validBirth);
-        console.log(validSex);
-        console.log(validEmail);
-
         if(validUserId &&
             isPwdValid &&
             isPwdChkValid &&

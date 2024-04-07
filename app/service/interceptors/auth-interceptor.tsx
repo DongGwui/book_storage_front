@@ -26,19 +26,20 @@ axiosClient.interceptors.response.use(
     async (error) => {
         console.log(error.config);
         console.log(error.response);
-        if(error.config && error.response){ //조건 구체화
-            console.log("response interceptor refresh token start");
-            try {
-                const result = await axios.get("/auth/refreshtoken", config);
-                if(result.status === 200){
-                    console.log("response interceptor retry config");
-                    console.log(result.data);
-                    return axiosClient(error.config.url);
-                }
-            }catch (error){
-                console.log(error);
-            }
-        }
+        console.log(error.response.data.msg);
+        // if(error.config && error.response){ //조건 구체화 -> 엑세스 토큰 만료 에러 인지만 체크하기
+        //     console.log("response interceptor refresh token start");
+        //     try {
+        //         const result = await axios.get("/auth/refreshtoken", config);
+        //         if(result.status === 200){
+        //             console.log("response interceptor retry config");
+        //             console.log(result.data);
+        //             return axiosClient(error.config.url);
+        //         }
+        //     }catch (error){
+        //         console.log(error);
+        //     }
+        // }
     }
 );
 

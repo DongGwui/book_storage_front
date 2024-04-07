@@ -1,6 +1,5 @@
 "use client";
 
-import {selectAuth} from "@/app/store/slices/auth-slice";
 import HomeNav from "@/app/utill/nav/HomeNav";
 import Intro from "@/app/Intro"
 import Content from "@/app/Content";

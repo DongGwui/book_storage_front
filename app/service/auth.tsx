@@ -31,7 +31,7 @@ export const logout = async () => {
 export const signup = async (userInfo: user) => {
     // 로그인 데이터 활용
     try{
-        return  axiosClient.post('/auth/signup', userInfo)
+        return  axios.post('http://localhost:4000/auth/signup', userInfo)
     }catch (error){
         console.error("signup error", error);
         throw error;

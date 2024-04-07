@@ -31,13 +31,13 @@ export const auth = createSlice({
             return initialState;
         },
 
-        logIn: (State, action: PayloadAction<string>) => {
+        logIn: (State, action: PayloadAction<AuthState>) => {
             //param - State = 초기 상태
             return {
                 value: {
                     isAuth: true,
-                    username: action.payload,
-                    userid: "userId",
+                    username: action.payload.username,
+                    userid: action.payload.userid,
                     isModerator: false,
                 },
             };
