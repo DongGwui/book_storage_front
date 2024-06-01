@@ -1,159 +1,123 @@
-import React from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useMemo, useRef, useState} from 'react';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { ImageActions } from '@xeger/quill-image-actions';
+import { ImageFormats } from '@xeger/quill-image-formats';
+import {imageUpload} from "@/app/service/upload";
 
-const Editor = () => {
+//Quill에 등록
+Quill.register('modules/imageActions', ImageActions);
+Quill.register('modules/imageFormats', ImageFormats);
+
+interface  infoState{
+    state:string,
+    setState:Dispatch<SetStateAction<string>>
+}
+
+
+const Editor: React.FC<infoState> = ({state, setState}:infoState) => {
+
+    useEffect( ()=> {
+        console.log(state);
+    },[state]);
+
+    const quillRef = useRef<ReactQuill | null>(null);
+    // 이미지 처리를 하는 핸들러
+    const imageHandler = () => {
+        console.log('에디터에서 이미지 버튼을 클릭하면 이 핸들러가 시작됩니다!');
+        if (!quillRef.current) return;
+        const quillInstance: any = quillRef.current.getEditor();
+        // 1. 이미지를 저장할 input type=file DOM을 만든다.
+        const input = document.createElement('input');
+        // 속성 써주기
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click(); // 에디터 이미지버튼을 클릭하면 이 input이 클릭된다.
+        // input이 클릭되면 파일 선택창이 나타난다.
+
+        input.onchange = async () => {
+            const file = input.files![0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            // 이미지를 서버로 전송 (서버 엔드포인트 주소를 사용)
+            const response = await imageUpload(formData);
+
+            const imageUrl = response.data.url;
+            const range = quillInstance.getSelection(true);
+            quillInstance.insertEmbed(range.index, 'image', imageUrl);
+        };
+    };
+
+    const formats = [
+        'align',
+        'background',
+        'blockquote',
+        'bold',
+        'code-block',
+        'color',
+        'float',
+        'font',
+        'header',
+        'height',
+        'image',
+        'italic',
+        'link',
+        'script',
+        'strike',
+        'size',
+        'underline',
+        'width',
+        'image',
+    ];
+
+    const modules = useMemo(() => {
+        return {
+            imageActions: {},
+            imageFormats: {},
+            toolbar: {
+                container: [
+                    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+                    ['blockquote', 'image', 'code-block'],
+
+                    [{ header: 1 }, { header: 2 }], // custom button values
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+                    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+                    [{ direction: 'rtl' }], // text direction
+
+                    [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+                    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+                    [{ font: [] }],
+                    [{ align: [] }],
+
+                    ['clean'],
+                ],
+
+                // 내부 이미지를 url로 받아오는 handler
+                handlers: {
+                    image: imageHandler,
+                },
+            },
+        };
+    }, []);
+
     return (
-        <div>
-            
-        </div>
+        <>
+            <ReactQuill
+                style={{height: "500px"}}
+                ref={quillRef}
+                formats={formats}
+                modules={modules}
+                onChange={setState}
+                value={state}
+                theme='snow'
+                placeholder="내용을 입력해주세요."
+            />
+        </>
     );
 };
 
 export default Editor;
-
-// import React, {useMemo, useRef, useState} from 'react';
-// // import ReactQuill from "react-quill";
-//
-// import dynamic from "next/dynamic";
-// import 'react-quill/dist/quill.snow.css';
-// import Quill from "quill";
-// import axios from "axios";
-// import ReactQuill, { ReactQuillProps } from 'react-quill';
-//
-//
-// // const Quill_NoSSR = dynamic(import("react-quill"), {
-// //     ssr: false,
-// //     loading: () => <p>Loading...</p>,
-// // });
-//
-// interface ForwardedQuillComponent extends ReactQuillProps {
-//     forwardedRef: React.Ref<ReactQuill>;
-// }
-//
-// const formats = [
-//     'font',
-//     'header',
-//     'bold',
-//     'italic',
-//     'underline',
-//     'strike',
-//     'blockquote',
-//     'list',
-//     'bullet',
-//     'indent',
-//     'link',
-//     'align',
-//     'color',
-//     'background',
-//     'size',
-//     'h1',
-// ];
-//
-//
-//
-// const Editor = () => {
-//     const [values, setValues] = useState<string>('');
-//     // const ReactQuill = useMemo(
-//     //     () => dynamic(() => import("react-quill"), {ssr: false}),
-//     //     [],
-//     // );
-//
-//     const QuillNoSSRWrapper = dynamic(
-//         async () => {
-//             const { default: QuillComponent } = await import('react-quill');
-//             const Quill = ({ forwardedRef, ...props }: ForwardedQuillComponent) => (
-//                 <QuillComponent ref={forwardedRef} {...props} />
-//             );
-//             return Quill;
-//         },
-//         { loading: () => <div>...loading</div>, ssr: false },
-//     );
-//     const quillInstance = useRef<ReactQuill>(null);
-//
-//     const quillRef = useRef<Quill>()
-//     const modules = useMemo(() => {
-//         return {
-//             toolbar: {
-//                 container: [
-//                     [{ size: ['small', false, 'large', 'huge'] }],
-//                     [{ align: [] }],
-//                     ['bold', 'italic', 'underline', 'strike'],
-//                     ['blockquote'],
-//                     [{ list: 'ordered' }, { list: 'bullet' },
-//                         { indent: "-1" }, { indent: "+1" },],
-//                     [{color: [],}, { background: [] },],
-//                     ['image']
-//                 ],
-//             },
-//             // handlers:{
-//             //     image: ImageHandler,
-//             // },
-//             ImageResize: {
-//                 parchment: Quill.import("parchment"),
-//                 modules: ["Resize", "DisplaySize"],
-//             },
-//         };
-//     }, []);
-//
-//     // const ImageHandler = () => {
-//     //     //input type= file DOM을 만든다.
-//     //     const input = document.createElement("input");
-//     //     input.setAttribute("type", "file");
-//     //     input.setAttribute("accept", "image/*");
-//     //     input.click(); //toolbar 이미지를 누르게 되면 이 부분이 실행된다.
-//     //     /*이미지를 선택하게 될 시*/
-//     //     input.onchange = async () => {
-//     //         /*이미지 선택에 따른 조건을 다시 한번 하게 된다.*/
-//     //         const file: any = input.files ? input.files[0] : null;
-//     //         /*선택을 안하면 취소버튼처럼 수행하게 된다.*/
-//     //         if (!file) return;
-//     //         /*서버에서 FormData형식으로 받기 때문에 이에 맞는 데이터형식으로 만들어준다.*/
-//     //         const formData = new FormData();
-//     //         formData.append("profile", file);
-//     //         /*에디터 정보를 가져온다.*/
-//     //         // if(quillRef.current){const quillEditor = quillRef.current?.getSelection()}
-//     //         let quillObj = quillRef.current?.editor;
-//     //         /*에디터 커서 위치를 가져온다.*/
-//     //         const range = quillRef.current?.getSelection()!;
-//     //         try {
-//     //             /*서버에다가 정보를 보내준 다음 서버에서 보낸 url을 imgUrl로 받는다.*/
-//     //             const res = await axios.post(
-//     //                 "api주소",
-//     //                 formData
-//     //             );
-//     //             const imgUrl = res.data;
-//     //             /*에디터의 커서 위치에 이미지 요소를 넣어준다.*/
-//     //             quillObj?.insertEmbed(range.index, "image", `${imgUrl}`);
-//     //         } catch (error) {
-//     //             console.log(error);
-//     //         }
-//     //     };
-//     // };
-//
-//
-//     return (
-//         <>
-//             <div className="flex flex-col w-2/3 h-96 mt-3 rounded-3xl p-2 bg-white">
-//                 <QuillNoSSRWrapper
-//                     forwardedRef={quillInstance}
-//                     value={values}
-//                     onChange={setValues}
-//                     modules={modules}
-//                     formats={formats}
-//                     theme="snow"
-//                     placeholder="내용을 입력해주세요."
-//                 />
-//                 {/*<ReactQuill*/}
-//                 {/*    style={{height: '500px', margin: '10px'}}*/}
-//                 {/*    placeholder="텍스트"*/}
-//                 {/*    theme="snow"*/}
-//                 {/*    modules={modules}*/}
-//                 {/*    formats={formats}*/}
-//                 {/*    value={setValues}*/}
-//                 {/*    ref={quillRef}*/}
-//                 {/*/>*/}
-//             </div>
-//         </>
-//     );
-// };
-//
-// export default Editor;

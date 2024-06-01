@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 import BookInfoOne from "@/app/edit/BookInfoOne";
 import Editor2 from "@/app/edit/Editor2";
+import Editor from "@/app/edit/Editor";
 import BookCover from "@/app/edit/BookCover";
 import {EditorState, BookInfos} from "@/app/data/editor"
 import {imageUpload} from "@/app/service/upload";
@@ -74,7 +75,8 @@ const BookInfo = ({userId, userName} : userInfo) => {
                                 <BookInfoOne item={title} state={titleState} setState={setTitleState}/>
                                 <BookInfoOne item={subject} state={subjectState} setState={setSubjectState}/>
                                 <BookCover state={coverState} setState={setCoverState}/>
-                                <Editor2 state={contentState} setState={setContentState}/>
+                                {/*<Editor2 state={contentState} setState={setContentState}/>*/}
+                                <Editor state={contentState} setState={setContentState}/>
                                 <div className="flex justify-center w-full mt-24 h-20">
                                     <button className="w-32 h-14 rounded-3xl text-xl font-bold text-white
                                                 bg-gradient-to-r from-violet-300 to-fuchsia-300" onClick={handleClick} >
