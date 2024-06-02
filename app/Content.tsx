@@ -19,11 +19,11 @@ const Content = ({booksType, books, limit}: {booksType:string, books:bookContent
                         {/**  반응형 -> 가져오는 데이터의 갯수를 조절  */}
                         {books.map((item,index) => (
                             <>
-                                <BookItem detail={item} index={index}/>
+                                <BookItem key={index} detail={item} index={index}/>
                             </>
                             )
                         )}
-                        {Array.from(Array(limit -books.length), x => <Sk_BookItem dummy={x+books.length}/>)}
+                        {Array.from(Array(limit -books.length), (x, index) => <Sk_BookItem key={index} dummy={x+books.length}/>)}
                     </div>
                 </div>
             </div>

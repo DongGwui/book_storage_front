@@ -57,8 +57,8 @@ const HomeNav = ({user}:{user:string}) => {
                         </>
                     ) : (
                         <>
-                            <Link href="/auth/login" className="ml-2 p-2">Log in</Link>
-                            <Link href="/auth/signup" className="ml-2 p-2 rounded-3xl text-white bg-black">Sign up</Link>
+                            <Link href={"/auth/login"} className="ml-2 p-2">Log in</Link>
+                            <Link href={"/auth/signup"} className="ml-2 p-2 rounded-3xl text-white bg-black">Sign up</Link>
                         </>
                     )}
                 </div>
