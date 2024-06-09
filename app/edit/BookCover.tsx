@@ -1,7 +1,7 @@
 import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
 import Image from 'next/image';
 import {imageUpload} from "@/app/service/upload";
-import {BookInfos} from "@/app/data/editor";
+import {BookInfos} from "@/app/_struct/editor";
 
 interface  infoState{
     state:string,

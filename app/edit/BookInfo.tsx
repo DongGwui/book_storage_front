@@ -4,10 +4,11 @@ import BookInfoOne from "@/app/edit/BookInfoOne";
 import Editor2 from "@/app/edit/Editor2";
 import Editor from "@/app/edit/Editor";
 import BookCover from "@/app/edit/BookCover";
-import {EditorState, BookInfos} from "@/app/data/editor"
+import {EditorState, BookInfos} from "@/app/_struct/editor"
 import {imageUpload} from "@/app/service/upload";
 import {insertBook} from "@/app/service/book";
 import {router} from "next/client";
+import {PDFEditor} from "react-pdf-editor";
 
 interface userInfo{
     userName: string,
@@ -77,6 +78,7 @@ const BookInfo = ({userId, userName} : userInfo) => {
                                 <BookCover state={coverState} setState={setCoverState}/>
                                 {/*<Editor2 state={contentState} setState={setContentState}/>*/}
                                 <Editor state={contentState} setState={setContentState}/>
+                                <PDFEditor src={""}/>
                                 <div className="flex justify-center w-full mt-24 h-20">
                                     <button className="w-32 h-14 rounded-3xl text-xl font-bold text-white
                                                 bg-gradient-to-r from-violet-300 to-fuchsia-300" onClick={handleClick} >

@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from 'react';
 
-import Nav from "@/app/utill/nav/Nav";
+import Nav from "@/app/_components/nav/Nav";
 import BookInfo from "@/app/edit/BookInfo";
 import {useAppSelector} from "@/app/store/store";
 

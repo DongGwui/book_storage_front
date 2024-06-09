@@ -1,5 +1,5 @@
 import React, {Dispatch, SetStateAction, useState} from 'react';
-import {EditorState, BookInfos} from "@/app/data/editor"
+import {EditorState, BookInfos} from "@/app/_struct/editor"
 
 interface  infoState{
     item:BookInfos,
