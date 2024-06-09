@@ -3,7 +3,7 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { ImageActions } from '@xeger/quill-image-actions';
 import { ImageFormats } from '@xeger/quill-image-formats';
-import {imageUpload} from "@/app/service/upload";
+import {imageUpload} from "@/app/_api/upload";
 
 //Quill에 등록
 Quill.register('modules/imageActions', ImageActions);
