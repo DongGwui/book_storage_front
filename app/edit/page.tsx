@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 
 import Nav from "@/app/_components/nav/Nav";
 import BookInfo from "@/app/edit/BookInfo";
-import {useAppSelector} from "@/app/store/store";
+import {useAppSelector} from "@/app/_store/store";
 
 export default function Page (){
     const user = useAppSelector((state) => state.persistedReducer.auth.value);

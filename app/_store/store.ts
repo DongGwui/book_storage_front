@@ -1,17 +1,21 @@
 import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import authReducer from "@/app/_store/slices/auth-slice";
+import bookReducer from "@/app/_store/slices/book-slice"
+import keysReducer from "@/app/_store/slices/keys-slice"
 import {useSelector, TypedUseSelectorHook} from "react-redux";
 import {persistReducer} from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const reducers = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    book: bookReducer,
+    keys: keysReducer
 });
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['auth']
+    whitelist: ['auth','book','keys']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

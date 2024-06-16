@@ -5,7 +5,7 @@ import {IoArrowBack} from "react-icons/io5";
 import {user} from "@/app/_struct/user";
 import axios, {AxiosError} from "axios";
 import {useRouter} from "next/navigation";
-import {signup} from "@/app/service/auth";
+import {signup} from "@/app/_api/auth";
 
 const Info = () => {
     const router = useRouter()
@@ -38,7 +38,7 @@ const Info = () => {
         try{
             const result = await signup(userInfo);
             if(result.status == 200){
-                router.push(`/auth/login`);
+                router.push(`/login`);
                 alert(result.data.msg);
             }else{
                 alert(result.data);

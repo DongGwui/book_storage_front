@@ -5,8 +5,8 @@ import Editor2 from "@/app/edit/Editor2";
 import Editor from "@/app/edit/Editor";
 import BookCover from "@/app/edit/BookCover";
 import {EditorState, BookInfos} from "@/app/_struct/editor"
-import {imageUpload} from "@/app/service/upload";
-import {insertBook} from "@/app/service/book";
+import {imageUpload} from "@/app/_api/upload";
+import {insertBook} from "@/app/_api/book";
 import {router} from "next/client";
 import {PDFEditor} from "react-pdf-editor";
 
@@ -25,22 +25,22 @@ const BookInfo = ({userId, userName} : userInfo) => {
     const [contentState, setContentState] = useState<string>('')
     const [isWrite, setIsWrite] =useState<boolean>(true)
 
-    const [editorState,setEditorState] = useState<EditorState>({
-        title : titleState,
-        subject : subjectState,
-        cover: coverState,
-        content: contentState
-    });
+    // const [editorState,setEditorState] = useState<EditorState>({
+    //     title : titleState,
+    //     subject : subjectState,
+    //     cover: coverState,
+    //     content: contentState
+    // });
 
     useEffect( ()=> {
 
-        setEditorState(prevState => ({
-            ...prevState,
-            title: titleState,
-            subject: subjectState,
-            cover: coverState,
-            content: contentState
-        }));
+        // setEditorState(prevState => ({
+        //     ...prevState,
+        //     title: titleState,
+        //     subject: subjectState,
+        //     cover: coverState,
+        //     content: contentState
+        // }));
 
     },[titleState,subjectState,coverState,contentState]);
 
@@ -48,8 +48,8 @@ const BookInfo = ({userId, userName} : userInfo) => {
         //db 저장 - 유저 정보, 책 정보
         try {
             //유저 아이디, 책 제목 들고오기
-            const insertRes = await insertBook(editorState);
-            window.alert(insertRes.data.msg);
+            // const insertRes = await insertBook(editorState);
+            // window.alert(insertRes.data.msg);
             setIsWrite(!isWrite);
         } catch (e) {
             console.error(e)
@@ -75,7 +75,7 @@ const BookInfo = ({userId, userName} : userInfo) => {
                             <>
                                 <BookInfoOne item={title} state={titleState} setState={setTitleState}/>
                                 <BookInfoOne item={subject} state={subjectState} setState={setSubjectState}/>
-                                <BookCover state={coverState} setState={setCoverState}/>
+                                {/*<BookCover state={coverState} setState={setCoverState}/>*/}
                                 {/*<Editor2 state={contentState} setState={setContentState}/>*/}
                                 <Editor state={contentState} setState={setContentState}/>
                                 <PDFEditor src={""}/>

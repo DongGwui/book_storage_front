@@ -5,10 +5,10 @@ import Link from "next/link";
 import {IoArrowBack} from "react-icons/io5";
 import {loginData, user} from "@/app/_struct/user"
 import {useRouter} from "next/navigation";
-import {login, loginSuccess} from '@/app/service/auth';
+import {login, loginSuccess} from '@/app/_api/auth';
 import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/app/store/store";
-import {logIn} from "@/app/store/slices/auth-slice";
+import {AppDispatch} from "@/app/_store/store";
+import {logIn} from "@/app/_store/slices/auth-slice";
 
 const Login = () => {
 
