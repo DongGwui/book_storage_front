@@ -101,7 +101,7 @@ const ArticleEditor = () => {
         }
             // setEditorValue();
 
-    }, [keys.currentSubtitle]);
+    },[keys.currentSubtitle]);
 
     useEffect(() => {
         console.log(editorValue);
